@@ -6,7 +6,7 @@ import {
   typography,
   utils,
   breakpoints,
-} from './rds-theme';
+} from '../rds-theme';
 
 const StyledFormGroup = styled.div`
   display: flex;
@@ -92,7 +92,7 @@ const StyledChinstrap = styled.p`
   font-size: ${typography.baseFontSize};
 `;
 
-class SelectField extends Component {
+class InputField extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -146,7 +146,7 @@ class SelectField extends Component {
       },
       () => {
         const { value } = this.state;
-        onChangeMethod(value);
+        if (onChangeMethod) onChangeMethod(value);
       },
     );
   }
@@ -209,7 +209,7 @@ class SelectField extends Component {
   }
 }
 
-SelectField.defaultProps = {
+InputField.defaultProps = {
   errorMessage: null,
   hasChinstrap: false,
   chinstrapMessage: '',
@@ -218,7 +218,7 @@ SelectField.defaultProps = {
   initialValue: '',
 };
 
-SelectField.propTypes = {
+InputField.propTypes = {
   label: PropTypes.string.isRequired,
   inputType: PropTypes.string.isRequired,
   onChangeMethod: PropTypes.func.isRequired,
@@ -230,4 +230,4 @@ SelectField.propTypes = {
   initialValue: PropTypes.string,
 };
 
-export default SelectField;
+export default InputField;
