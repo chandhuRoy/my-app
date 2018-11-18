@@ -1,40 +1,44 @@
 import React from 'react';
-import { mount } from 'enzyme';
-import SelectField from './Select';
+import { shallow } from 'enzyme';
+import SelectField from './SelectField';
+import * as options from '../../models/SelectOptionsHashes.json';
+
+const getOptionsFromHash = () => Object.entries(options.employmentStatus)
+  .map(item => ({ key: item[0], value: item[1] }));
 
 const mockChangeFn = jest.fn();
-const mockInvalidRefFn = jest.fn();
-
-const selectInput = mount(
+const mockRefFn = jest.fn();
+const selectInput = shallow(
   <SelectField
-    label='Employement Status'
-      defaultValue='Full Time'
-      errorMessage=''
-      options={[{ key: 1, value: 'Full Time' }, { key: 1, value: 'Part Time' }]}
-    />,
+    label='Employment Status'
+    onChangeMethod={mockChangeFn}
+    isValidating={false}
+    invalidRef={mockRefFn}
+    initialValue=''
+    options={getOptionsFromHash()}
+  />,
 );
 
-describe('<SelectField>', () => {
+xdescribe('<SelectField>', () => {
   it('should render', () => {
-    // console.log('selectInput', selectInput.debug());
     expect(selectInput).toMatchSnapshot();
   });
-  it('should contain all required props', () => {
-    const props = selectInput.props();
+  it('should contain a <select> element', () => {
+    const element = selectInput.find('Styled(select)');
+    expect(element).toHaveLength(1);
+  });
+  it('should contain a <label> element', () => {
+    const element = selectInput.find('Styled(label)');
+    expect(element).toHaveLength(1);
+  });
+  it('should contain at least one <option> element', () => {
+    const element = selectInput.find('Styled(option)');
+    expect(element.length).toBeGreaterThan(1);
+  });
+  it('should fire off an onChange event on selecting an option', () => {
+    selectInput.find('Styled(select)').simulate('change', { target: { value: 'Architecture and Engineering' } });
 
-    expect(props.label).toBeDefined();
-  });
-  it('should contain an <select> element', () => {
-    expect(selectInput.find('select')).toHaveLength(1);
-  });
-  it('should fire off an onChange event on entering text and set value', () => {
-    selectInput.find('select').simulate('change', { target: { value: 'Martin' } });
     expect(mockChangeFn).toHaveBeenCalled();
-    expect(selectInput.find('select').props().value).toEqual('Martin');
-  });
-  it('should have label for match the id of input', () => {
-    const selectId = selectInput.find('select').props().id;
-    const labelFor = selectInput.find('label').props().htmlFor;
-    expect(labelFor).toMatch(selectId);
+    expect(selectInput.find('Styled(select)').props().value).toEqual('Architecture and Engineering');
   });
 });

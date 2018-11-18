@@ -16,6 +16,7 @@ const App = () => (
       inputType='email'
       initialValue=''
       errorMessage=''
+      onChangeMethod={() => console.log('masg')}
     />
   </div>
 );
