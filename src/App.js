@@ -1,24 +1,22 @@
-import React from 'react';
+import React, { Component } from 'react';
+import { Player } from 'video-react';
 import './App.css';
-import SelectField from './component/Select/Select';
-import InputField from './component/Input/InputField';
+import './video.css';
 
-const App = () => (
-  <div style={{ margin: 20 }}>
-    <SelectField
-      label='Employement Status'
-      defaultValue=''
-      errorMessage=''
-      options={[{ key: 1, value: 'Full Time' }, { key: 2, value: 'Part Time' }]}
-    />
-    <InputField
-      label='Email'
-      inputType='email'
-      initialValue=''
-      errorMessage=''
-      onChangeMethod={() => console.log('masg')}
-    />
-  </div>
-);
+class App extends Component {
+  render() {
+    return (
+      <div className="App">
+        <header className="App-header">
+          <Player
+            playsInline
+            poster="./download.png"
+            src="https://media.w3.org/2010/05/sintel/trailer_hd.mp4"
+          />
+        </header>
+      </div>
+    );
+  }
+}
 
 export default App;
